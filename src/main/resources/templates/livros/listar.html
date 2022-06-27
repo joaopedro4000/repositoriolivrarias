@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout}">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+
+	<main>
+
+		<section class="layout-content" layout:fragment="corpo">
+			<h1>Lista de Livros</h1>
+
+			<div th:replace="fragments/message"></div>
+			
+			<table class="table">
+				<thead class="thead-light">
+					<tr th:if="${!listaLivros.empty}">
+						<th scope="col">ID</th>
+						<th scope="col">ISBN</th>
+						<th scope="col">TÍTULO</th>
+						<th scope="col">CATEGORIA</th>
+						<th scope="col">EDITORA</th>
+						<th style="width: 15px;" scope="col">&nbsp;</th>
+						<th style="width: 15px;" scope="col">&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+				
+					<tr th:if="${listaLivros.empty}">
+						<td scope="row" colspan="5">Nenhum Livro Disponível</td>
+					</tr>
+					<tr th:each="livro : ${listaLivros}">
+						<td th:text="${livro.id}">id</td>
+						<td th:text="${livro.isbn}">isbn</td>
+						<td th:text="${livro.titulo}">titulo</td>
+						<td th:text="${livro.categoria.nome}">categoria</td>
+						<td th:text="${livro.editora.nome}">editora</td>
+
+						<td scope="row"><a
+							th:href="@{/livros/editar/{id} (id=${livro.id}) }">
+								<button class="btn btn-primary"><i class="fa fa-edit"></i></button>
+						</a></td>
+
+						<td scope="row">
+							<button th:onclick="'javascript:excluir(' + ${livro.id} + ')'" class="btn btn-danger"><i class="fa fa-close"></i></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<a href="/livros/cadastrar"><button type="button"
+					class="btn btn-success">Inserir</button></a>
+		
+		<script>
+		function excluir(id) {
+			if (confirm("Tem certeza que deseja excluir?"))
+				location.href = '/livros/excluir/' + id;
+		}		
+		</script>
+		
+		</section>		
+
+	</main>	
+
+</body>
+</html>

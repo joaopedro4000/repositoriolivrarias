@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout}">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+
+	<main>
+
+		<section class="layout-content" layout:fragment="corpo">
+			<h1>Lista de Editora</h1>
+
+			<div th:replace="fragments/message"></div>
+			
+			<table class="table">
+				<thead class="thead-light">
+					<tr th:if="${!listaEditoras.empty}">
+						<th scope="col">ID</th>
+						<th scope="col">NOME</th>
+						<th style="width: 15px;" scope="col">&nbsp;</th>
+						<th style="width: 15px;" scope="col">&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+				
+					<tr th:if="${listaEditoras.empty}">
+						<td scope="row" colspan="5">Nenhum Editora Disponível</td>
+					</tr>
+					<tr th:each="editora : ${listaEditoras}">
+						<td th:text="${editora.id}">id</td>
+						<td th:text="${editora.nome}">nome</td>
+
+						<td scope="row"><a
+							th:href="@{/editoras/editar/{id} (id=${editora.id}) }">
+								<button class="btn btn-primary"><i class="fa fa-edit"></i></button>
+						</a></td>
+
+						<td scope="row">
+							<button th:onclick="'javascript:excluir(' + ${editora.id} + ')'" class="btn btn-danger"><i class="fa fa-close"></i></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<a href="/editoras/cadastrar"><button type="button"
+					class="btn btn-success">Inserir</button></a>
+		
+		<script>
+		function excluir(id) {
+			if (confirm("Tem certeza que deseja excluir?"))
+				location.href = '/editoras/excluir/' + id;
+		}		
+		</script>
+		
+		</section>		
+
+	</main>	
+
+</body>
+</html>

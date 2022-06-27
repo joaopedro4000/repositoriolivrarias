@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<main>
+
+		<section class="layout-content" layout:fragment="corpo">
+			<div th:replace="fragments/message"></div>
+
+			<h1 th:text="${livro.id == 0} ? 'Inserir Livro': 'Editar Livro'">Livros</h1>
+
+			<form
+				th:action="${livro.id == 0} ? @{/livros/salvar} : @{/livros/editar}"
+				th:object="${livro}" method="post">
+				<div class="form-group">
+					<label for="isbn">ISBN</label> <input th:field="*{isbn}"
+						type="text" class="form-control" id="isbn">
+				</div>
+
+				<div class="form-group">
+					<label for="titulo">TÍTULO</label> <input th:field="*{titulo}"
+						type="text" class="form-control" id="titulo">
+				</div>
+
+				<div class="form-group">
+					<label for="categoria">CATEGORIA</label> 
+					<select class="form-select" th:field="*{categoria}">						
+						<option th:each="categoria : ${listaCategoria}"
+							th:value="${categoria.id}" th:text="${categoria.nome}"/>
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<label for="editora">EDITORA</label> 
+					<select class="form-select" th:field="*{editora}">						
+						<option th:each="editora : ${listaEditora}"
+							th:value="${editora.id}" th:text="${editora.nome}"/>
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<label for="resenha">RESENHA</label> 
+					<input type="text" class="form-control" 
+						th:field="*{resenha.descricao}"/>
+				</div>
+				
+				
+				<input th:field="*{resenha.id}" type="hidden"> <br>
+						
+				
+				<input th:field="*{id}" type="hidden"> <br>
+				<button th:text="${livro.id == 0} ? 'Inserir': 'Editar'"
+					type="submit" class="btn  btn-success">Inserir</button>
+				<a th:href="@{/livros/listar}"><button type="button"
+						class="btn  btn-warning">Listar</button></a>
+			</form>
+
+		</section>
+
+	</main>
+
+
+</body>
+</html>
